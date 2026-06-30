@@ -1,4 +1,6 @@
-import { Phone, Mail, MapPin, Send, GraduationCap } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Phone, Mail, MapPin, Send, GraduationCap, X } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 import logoImg from "../assets/uniguide logo.jpeg";
 
 interface FooterProps {
@@ -6,6 +8,23 @@ interface FooterProps {
 }
 
 export default function Footer({ onNavigate }: FooterProps) {
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+
+  // Close modal on Escape key and lock background scroll
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsCertModalOpen(false);
+    };
+    if (isCertModalOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset";
+    };
+  }, [isCertModalOpen]);
+
   const quickLinks = [
     { name: "Home", id: "home", page: "home" as const },
     { name: "Universities", id: "universities", page: "home" as const },
@@ -27,6 +46,7 @@ export default function Footer({ onNavigate }: FooterProps) {
           <p className="text-xs md:text-sm text-gray-400 leading-relaxed">
             Uni Guide is a professional university representative dedicated to helping international students enroll in leading UK, Australian, and global colleges. Our counseling is 100% free.
           </p>
+
           <div className="flex items-center gap-3">
             <a href="#" className="hover:text-primary transition-colors p-2 bg-white/5 hover:bg-white/10 rounded-full text-gray-300" aria-label="Facebook">
               <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -117,6 +137,28 @@ export default function Footer({ onNavigate }: FooterProps) {
               <Send className="w-4 h-4" />
             </button>
           </div>
+
+          {/* British Council Certified Badge */}
+          <div className="flex items-center gap-4 bg-white/5 p-3 rounded-2xl border border-white/10 max-w-xs transition-all hover:bg-white/10 mt-4">
+            <div
+              onClick={() => setIsCertModalOpen(true)}
+              className="relative flex h-11 w-16 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-white/10 bg-secondary shadow-md hover:scale-105 transition-all duration-300 group/badge"
+            >
+              <img
+                src="/british_council_certified.jpg"
+                alt="British Council Certified Agent"
+                className="h-full w-full object-cover group-hover/badge:opacity-90 transition-opacity"
+              />
+            </div>
+            <div>
+              <p className="text-xs font-bold text-white leading-tight">
+                British Council Certified Agent
+              </p>
+              <p className="text-[10px] text-gray-400 mt-0.5 leading-normal">
+                Accredited student counseling
+              </p>
+            </div>
+          </div>
         </div>
 
       </div>
@@ -129,6 +171,64 @@ export default function Footer({ onNavigate }: FooterProps) {
           <span>Bridging Student Success Internationally</span>
         </div>
       </div>
+
+      {/* Lightbox certificate modal popup */}
+      <AnimatePresence>
+        {isCertModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsCertModalOpen(false)}
+              className="absolute inset-0 bg-secondary-dark/70 backdrop-blur-md"
+            />
+
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="bg-white rounded-3xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative border border-neutral-border/30 z-10 mx-auto overflow-hidden text-neutral-textDark"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsCertModalOpen(false)}
+                className="absolute top-4 right-4 bg-neutral-light hover:bg-primary hover:text-white text-secondary p-2 rounded-full transition-all cursor-pointer shadow-sm"
+                aria-label="Close certificate"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="space-y-6">
+                <div className="text-center space-y-2">
+                  <p className="text-primary font-extrabold text-[10px] uppercase tracking-widest">Accredited Representative</p>
+                  <h4 className="text-xl md:text-2xl font-extrabold text-secondary font-serif">
+                    British Council Certification
+                  </h4>
+                </div>
+
+                <div className="relative rounded-2xl overflow-hidden border border-neutral-border/40 shadow-inner bg-neutral-light/50 p-2 flex items-center justify-center">
+                  <img
+                    src="/british_council_certified.jpg"
+                    alt="British Council Certified Agent Certificate"
+                    className="max-h-[50vh] w-auto object-contain rounded-xl shadow-sm"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://via.placeholder.com/600x400?text=British+Council+Certified+Agent";
+                    }}
+                  />
+                </div>
+
+                <p className="text-xs md:text-sm text-neutral-textMuted text-center leading-relaxed font-medium">
+                  Uni Guide is officially certified by the British Council. Our academic counselors undergo training and assessment to maintain global standards of integrity and excellence in UK student placement.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </footer>
   );
 }
