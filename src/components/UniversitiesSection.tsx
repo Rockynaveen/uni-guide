@@ -61,11 +61,11 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
       </div>
 
       {/* Overlapping Content (Carousel or Grid) */}
-      <div className="absolute bottom-0 left-0 right-0 transform translate-y-1/2 z-20 w-full max-w-7xl mx-auto px-12">
+      <div className="relative lg:absolute lg:bottom-0 lg:left-0 lg:right-0 lg:transform lg:translate-y-1/2 z-20 w-full max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 mt-8 lg:mt-0">
         {searchQuery.trim() !== "" ? (
           /* Search Directory Grid view */
           filteredUniversities.length > 0 ? (
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-neutral-border/50 shadow-2xl max-h-[360px] overflow-y-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-neutral-border/50 shadow-2xl max-h-[360px] overflow-y-auto">
               {filteredUniversities.map((uni, idx) => {
                 const Icon = uni.icon;
                 return (

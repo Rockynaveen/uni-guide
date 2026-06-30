@@ -6,7 +6,9 @@ import {
   Eye,
   GraduationCap,
   Globe,
+  X,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
 
 interface CounterProps {
   end: number;
@@ -78,6 +80,22 @@ function AnimatedCounter({
 
 export default function AboutSection() {
   const [activeTab, setActiveTab] = useState<"mission" | "vision">("mission");
+  const [isCertModalOpen, setIsCertModalOpen] = useState(false);
+
+  // Close modal on Escape key and lock background scroll
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setIsCertModalOpen(false);
+    };
+    if (isCertModalOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "hidden";
+    }
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "unset";
+    };
+  }, [isCertModalOpen]);
 
   const benefits = [
     "Expert course and university matching",
@@ -233,11 +251,14 @@ export default function AboutSection() {
             </div>
 
             <div className="flex items-center gap-4 border-t border-neutral-border pt-6">
-              <div className="relative flex h-14 w-20 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-neutral-border/40 bg-secondary shadow-md">
+              <div
+                onClick={() => setIsCertModalOpen(true)}
+                className="relative flex h-14 w-20 shrink-0 cursor-pointer items-center justify-center overflow-hidden rounded-xl border border-neutral-border/40 bg-secondary shadow-md hover:scale-105 hover:border-primary/20 transition-all duration-300 group/badge"
+              >
                 <img
                   src="/british_council_certified.jpg"
                   alt="British Council Certified Agent"
-                  className="h-full w-full object-cover"
+                  className="h-full w-full object-cover group-hover/badge:opacity-90 transition-opacity"
                 />
               </div>
 
@@ -285,6 +306,64 @@ export default function AboutSection() {
           })}
         </div>
       </div>
+
+      {/* Lightbox certificate modal popup */}
+      <AnimatePresence>
+        {isCertModalOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsCertModalOpen(false)}
+              className="absolute inset-0 bg-secondary-dark/70 backdrop-blur-md"
+            />
+
+            {/* Modal Card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.9, y: 20 }}
+              transition={{ type: "spring", duration: 0.5 }}
+              className="bg-white rounded-3xl p-6 md:p-8 max-w-xl w-full shadow-2xl relative border border-neutral-border/30 z-10 mx-auto overflow-hidden text-neutral-textDark"
+            >
+              {/* Close Button */}
+              <button
+                onClick={() => setIsCertModalOpen(false)}
+                className="absolute top-4 right-4 bg-neutral-light hover:bg-primary hover:text-white text-secondary p-2 rounded-full transition-all cursor-pointer shadow-sm"
+                aria-label="Close certificate"
+              >
+                <X className="w-4 h-4" />
+              </button>
+
+              <div className="space-y-6">
+                <div className="text-center space-y-2">
+                  <p className="text-primary font-extrabold text-[10px] uppercase tracking-widest">Accredited Representative</p>
+                  <h4 className="text-xl md:text-2xl font-extrabold text-secondary font-serif">
+                    British Council Certification
+                  </h4>
+                </div>
+
+                <div className="relative rounded-2xl overflow-hidden border border-neutral-border/40 shadow-inner bg-neutral-light/50 p-2 flex items-center justify-center">
+                  <img
+                    src="/british_council_certified.jpg"
+                    alt="British Council Certified Agent Certificate"
+                    className="max-h-[50vh] w-auto object-contain rounded-xl shadow-sm"
+                    onError={(e) => {
+                      e.currentTarget.src = "https://via.placeholder.com/600x400?text=British+Council+Certified+Agent";
+                    }}
+                  />
+                </div>
+
+                <p className="text-xs md:text-sm text-neutral-textMuted text-center leading-relaxed font-medium">
+                  Uni Guide is officially certified by the British Council. Our academic counselors undergo training and assessment to maintain global standards of integrity and excellence in UK student placement.
+                </p>
+              </div>
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }

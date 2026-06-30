@@ -1,4 +1,6 @@
 import { useState, useEffect } from "react";
+import AOS from "aos";
+import "aos/dist/aos.css";
 import Header from "./components/Header";
 import HeroSection from "./components/HeroSection";
 import AboutSection from "./components/AboutSection";
@@ -15,6 +17,21 @@ function App() {
   const [selectedUni, setSelectedUni] = useState("");
   const [currentPage, setCurrentPage] = useState<"home" | "contact">("home");
   const [scrollToTarget, setScrollToTarget] = useState<string | null>(null);
+
+  // Initialize AOS
+  useEffect(() => {
+    AOS.init({
+      duration: 800,
+      easing: "ease-out-cubic",
+      once: true,
+      mirror: false,
+    });
+  }, []);
+
+  // Refresh AOS elements when route view changes
+  useEffect(() => {
+    AOS.refresh();
+  }, [currentPage]);
 
   // Core navigation handler coordinating page switches and section scrolling
   const handleNavigate = (page: "home" | "contact", sectionId?: string) => {

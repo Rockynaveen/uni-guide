@@ -31,7 +31,6 @@ export default function ProcessSection() {
   return (
     <section id="process" className="py-12 px-4 md:px-8 bg-neutral-light border-y border-neutral-border/60 relative overflow-hidden">
       <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(ellipse_at_bottom_left,#003a66_0%,transparent_3%)] opacity-30" />
-
       <style>{`
         .bg-dashed-line {
           background-image: linear-gradient(to right, #ced7e4 60%, rgba(255,255,255,0) 0%);
@@ -39,10 +38,18 @@ export default function ProcessSection() {
           background-size: 16px 3px;
           background-repeat: repeat-x;
         }
+        [data-aos="draw-dashed-line"] {
+          width: 0;
+          transition-property: width !important;
+        }
+        [data-aos="draw-dashed-line"].aos-animate {
+          width: 76% !important;
+        }
       `}</style>
 
       <div className="max-w-7xl mx-auto space-y-16 relative z-10">
 
+        {/* Section Header */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
           <p className="text-primary font-extrabold text-xs uppercase tracking-widest bg-primary/10 inline-block px-3.5 py-1.5 rounded-full">
             Our Work Flow
@@ -59,12 +66,22 @@ export default function ProcessSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 relative">
 
           {/* Connector Line (Desktop) */}
-          <div className="absolute top-12 left-[12%] right-[12%] h-[3px] bg-dashed-line hidden lg:block z-0" />
+          <div
+            data-aos="draw-dashed-line"
+            data-aos-delay="100"
+            data-aos-duration="1200"
+            className="absolute top-12 left-[12%] h-[3px] bg-dashed-line hidden lg:block z-0"
+          />
 
           {steps.map((step, idx) => {
             const Icon = step.icon;
             return (
-              <div key={idx} className="relative z-10 flex flex-col items-center text-center space-y-5 group">
+              <div
+                key={idx}
+                data-aos="fade-up"
+                data-aos-delay={idx * 200}
+                className="relative z-10 flex flex-col items-center text-center space-y-5 group"
+              >
 
                 {/* Icon Circle */}
                 <div className="w-24 h-24 rounded-3xl bg-white border border-neutral-border/80 group-hover:border-primary flex items-center justify-center relative shadow-sm group-hover:shadow-2xl transition-all duration-500 transform group-hover:scale-105 group-hover:animate-float">

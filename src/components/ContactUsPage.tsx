@@ -276,7 +276,7 @@ export default function ContactUsPage({ onBackToHome }: ContactUsPageProps) {
                   </div>
                 </div>
 
-                <div className="pt-2 border-t border-white/10 flex items-center gap-3">
+                <div className="pt-2 border-t border-white/10 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
                   <a
                     href={`tel:${selectedBranchData.phone.replace(/\s+/g, "")}`}
                     className="flex-1 bg-primary hover:bg-primary-hover text-white text-center py-2.5 px-4 rounded-xl text-xs font-bold transition-all flex items-center justify-center gap-2 shadow-sm hover:shadow-primary/30"
