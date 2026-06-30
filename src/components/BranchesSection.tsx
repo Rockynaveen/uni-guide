@@ -59,7 +59,7 @@ export default function BranchesSection() {
   const [activeBranch, setActiveBranch] = useState(branches[0]);
 
   return (
-    <section id="branches" className="py-24 px-4 md:px-8 bg-white relative overflow-hidden">
+    <section id="branches" className="py-12 px-4 md:px-8 bg-white relative overflow-hidden">
       {/* Background Soft Blurs */}
       <div className="absolute top-1/4 right-0 w-72 h-72 bg-secondary/5 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-72 h-72 bg-primary/5 rounded-full filter blur-3xl pointer-events-none" />

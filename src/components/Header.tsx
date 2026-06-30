@@ -3,10 +3,11 @@ import { Phone, Menu, X } from "lucide-react";
 import logoImg from "../assets/uniguide logo.jpeg";
 
 interface HeaderProps {
-  onScrollToSection: (sectionId: string) => void;
+  currentPage: "home" | "contact";
+  onNavigate: (page: "home" | "contact", sectionId?: string) => void;
 }
 
-export default function Header({ onScrollToSection }: HeaderProps) {
+export default function Header({ currentPage, onNavigate }: HeaderProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
 
@@ -19,16 +20,17 @@ export default function Header({ onScrollToSection }: HeaderProps) {
   }, []);
 
   const navigationLinks = [
-    { name: "Home", id: "home" },
-    { name: "Universities", id: "universities" },
-    { name: "About Us", id: "about" },
-    { name: "Our Process", id: "process" },
-    { name: "Our Branches", id: "branches" },
+    { name: "Home", id: "home", page: "home" as const },
+    { name: "Universities", id: "universities", page: "home" as const },
+    { name: "About Us", id: "about", page: "home" as const },
+    { name: "Our Process", id: "process", page: "home" as const },
+    { name: "Our Branches", id: "branches", page: "home" as const },
+    { name: "Contact Us", id: "contact", page: "contact" as const },
   ];
 
-  const handleLinkClick = (id: string) => {
+  const handleLinkClick = (page: "home" | "contact", id: string) => {
     setIsMobileMenuOpen(false);
-    onScrollToSection(id);
+    onNavigate(page, id);
   };
 
   return (
@@ -41,7 +43,7 @@ export default function Header({ onScrollToSection }: HeaderProps) {
         isScrolled ? "h-16" : "h-20 md:h-24"
       }`}>
         {/* Logo Section */}
-        <div className="flex items-center gap-3 cursor-pointer group shrink-0" onClick={() => handleLinkClick("home")}>
+        <div className="flex items-center gap-3 cursor-pointer group shrink-0" onClick={() => handleLinkClick("home", "home")}>
           <img
             src={logoImg}
             alt="Uni Guide Logo"
@@ -56,15 +58,22 @@ export default function Header({ onScrollToSection }: HeaderProps) {
 
         {/* Desktop Navbar */}
         <nav className="hidden lg:flex items-center gap-8 px-4">
-          {navigationLinks.map((link) => (
-            <button
-              key={link.id}
-              onClick={() => handleLinkClick(link.id)}
-              className="text-secondary font-bold text-sm hover:text-primary transition-colors cursor-pointer relative py-2 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2.5px] after:bg-primary after:transition-all hover:after:w-8"
-            >
-              {link.name}
-            </button>
-          ))}
+          {navigationLinks.map((link) => {
+            const isActive = currentPage === link.page;
+            return (
+              <button
+                key={link.id}
+                onClick={() => handleLinkClick(link.page, link.id)}
+                className={`font-bold text-sm transition-colors cursor-pointer relative py-2 after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:w-0 after:h-[2.5px] after:bg-primary after:transition-all hover:after:w-8 ${
+                  isActive && (link.page !== "home" || link.id === "home")
+                    ? "text-primary after:w-8"
+                    : "text-secondary hover:text-primary"
+                }`}
+              >
+                {link.name}
+              </button>
+            );
+          })}
         </nav>
 
         {/* Phone Call Card on Desktop */}
@@ -107,15 +116,22 @@ export default function Header({ onScrollToSection }: HeaderProps) {
       {isMobileMenuOpen && (
         <div className="lg:hidden w-full bg-white border-t border-neutral-border/20 px-6 py-5 absolute left-0 right-0 shadow-xl animate-fade-in-up">
           <div className="flex flex-col gap-4">
-            {navigationLinks.map((link) => (
-              <button
-                key={link.id}
-                onClick={() => handleLinkClick(link.id)}
-                className="text-left text-secondary font-bold text-base py-2 border-b border-neutral-light hover:text-primary transition-colors"
-              >
-                {link.name}
-              </button>
-            ))}
+            {navigationLinks.map((link) => {
+              const isActive = currentPage === link.page;
+              return (
+                <button
+                  key={link.id}
+                  onClick={() => handleLinkClick(link.page, link.id)}
+                  className={`text-left font-bold text-base py-2 border-b border-neutral-light transition-colors ${
+                    isActive && (link.page !== "home" || link.id === "home")
+                      ? "text-primary"
+                      : "text-secondary hover:text-primary"
+                  }`}
+                >
+                  {link.name}
+                </button>
+              );
+            })}
             <div className="flex flex-col gap-4 pt-4 border-t border-neutral-light">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white">

@@ -20,13 +20,13 @@ export default function WhyChooseUs() {
   ];
 
   return (
-    <section className="pt-36 pb-24 md:pt-44 md:pb-24 px-4 md:px-8 bg-white relative overflow-hidden">
+    <section className="py-12 md:pt-44 md:pb-24 px-4 md:px-8 bg-white relative overflow-hidden">
       {/* Decorative background gradients */}
       <div className="absolute top-1/3 right-0 w-72 h-72 bg-primary/5 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute bottom-1/4 left-0 w-80 h-80 bg-secondary/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center relative z-10">
-        
+
         {/* Left Column: Image */}
         <div className="lg:col-span-5 relative pb-6 lg:pb-0">
           <div className="absolute -inset-4 bg-primary/10 rounded-[2.5rem] transform -rotate-2 scale-105 pointer-events-none" />
@@ -37,9 +37,9 @@ export default function WhyChooseUs() {
           />
           {/* British Council Certified Badge overlapping on bottom right of the image */}
           <div className="absolute -bottom-4 -right-2 sm:-right-4 bg-white p-2 rounded-2xl shadow-xl z-20 border border-neutral-border/40 w-36 sm:w-40 hover:scale-105 transition-all duration-300">
-            <img 
-              src="/british_council_certified.jpg" 
-              alt="British Council Certified Agent" 
+            <img
+              src="/british_council_certified.jpg"
+              alt="British Council Certified Agent"
               className="w-full h-auto rounded-lg"
             />
             <p className="text-[9px] text-center text-secondary font-extrabold mt-1.5 uppercase tracking-wider">Certified Agent</p>
@@ -48,15 +48,14 @@ export default function WhyChooseUs() {
 
         {/* Right Column: Copy & Feature Cards */}
         <div className="lg:col-span-7 space-y-8 relative">
-          
+
           {/* Header Copy */}
           <div className="space-y-4">
-            <div className="inline-flex items-center gap-2 bg-amber-50 border border-amber-200/60 rounded-full px-4 py-1.5 text-xs font-bold text-amber-700">
-              <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            <p className="inline-block rounded-full bg-primary/10 px-3.5 py-1.5 text-xs font-extrabold uppercase tracking-widest text-primary">
               Why Choose Us
-            </div>
+            </p>
             <h2 className="text-3xl md:text-5xl font-extrabold text-secondary leading-tight tracking-tight">
-              Why Students Trust <span className="text-primary font-serif italic font-normal">Uni Guide</span>
+              Why Students Trust <span className="text-gradient-primary font-serif italic">Uni Guide</span>
             </h2>
             <p className="text-neutral-textMuted text-sm md:text-base leading-relaxed max-w-2xl">
               With proven expertise, global university partnerships, and personalized guidance, we help students confidently achieve their study abroad dreams.

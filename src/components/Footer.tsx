@@ -2,17 +2,17 @@ import { Phone, Mail, MapPin, Send, GraduationCap } from "lucide-react";
 import logoImg from "../assets/uniguide logo.jpeg";
 
 interface FooterProps {
-  onScrollToSection: (sectionId: string) => void;
+  onNavigate: (page: "home" | "contact", sectionId?: string) => void;
 }
 
-export default function Footer({ onScrollToSection }: FooterProps) {
+export default function Footer({ onNavigate }: FooterProps) {
   const quickLinks = [
-    { name: "Home", id: "home" },
-    { name: "Universities", id: "universities" },
-    { name: "About Us", id: "about" },
-    { name: "Our Process", id: "process" },
-    { name: "Our Branches", id: "branches" },
-    { name: "Contact & Apply", id: "contact" },
+    { name: "Home", id: "home", page: "home" as const },
+    { name: "Universities", id: "universities", page: "home" as const },
+    { name: "About Us", id: "about", page: "home" as const },
+    { name: "Our Process", id: "process", page: "home" as const },
+    { name: "Our Branches", id: "branches", page: "home" as const },
+    { name: "Contact & Apply", id: "contact", page: "contact" as const },
   ];
 
   return (
@@ -62,7 +62,7 @@ export default function Footer({ onScrollToSection }: FooterProps) {
             {quickLinks.map((link, idx) => (
               <li key={idx}>
                 <button
-                  onClick={() => onScrollToSection(link.id)}
+                  onClick={() => onNavigate(link.page, link.id)}
                   className="text-xs md:text-sm text-gray-400 hover:text-primary transition-colors cursor-pointer text-left"
                 >
                   {link.name}

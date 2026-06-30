@@ -31,7 +31,7 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
   );
 
   return (
-    <section id="universities" className="relative w-full bg-secondary-dark pt-16 pb-28 md:pt-20 md:pb-36 overflow-visible flex flex-col items-center justify-center text-center">
+    <section id="universities" className="relative w-full bg-secondary-dark py-12 md:pt-20 md:pb-36 overflow-visible flex flex-col items-center justify-center text-center">
       {/* Background radial effects */}
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,92,53,0.08),transparent_50%)] pointer-events-none" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(0,58,102,0.1),transparent_50%)] pointer-events-none" />

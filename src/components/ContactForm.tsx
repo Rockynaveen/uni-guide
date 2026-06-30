@@ -1,5 +1,34 @@
-import React, { useState, useEffect } from "react";
-import { Send, PhoneCall, GraduationCap, CheckCircle, Mail, AlertCircle } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { Send, PhoneCall, GraduationCap, CheckCircle, Mail } from "lucide-react";
+
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "./ui/form";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Select } from "./ui/select";
+import { Button } from "./ui/button";
+
+// Define Form Validation Schema with Zod
+const formSchema = z.object({
+  name: z.string().min(1, { message: "Full name is required" }),
+  email: z.string().min(1, { message: "Email address is required" }).email({ message: "Please enter a valid email address" }),
+  mobile: z.string().min(1, { message: "Mobile number is required" }).refine((val) => {
+    const cleaned = val.replace(/\s+/g, "");
+    return /^\+?[0-9\s-]{7,15}$/.test(cleaned);
+  }, { message: "Please enter a valid phone number" }),
+  university: z.string(),
+  degreeLevel: z.string(),
+  message: z.string(),
+});
 
 interface ContactFormProps {
   selectedUniversity?: string;
@@ -7,25 +36,27 @@ interface ContactFormProps {
 }
 
 export default function ContactForm({ selectedUniversity = "", onClearSelectedUniversity }: ContactFormProps) {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    mobile: "",
-    university: "",
-    degreeLevel: "",
-    message: "",
-  });
-
-  const [errors, setErrors] = useState<{ [key: string]: string }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const form = useForm<z.infer<typeof formSchema>>({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      mobile: "",
+      university: "",
+      degreeLevel: "",
+      message: "",
+    },
+  });
 
   // Sync selected university from prop
   useEffect(() => {
     if (selectedUniversity) {
-      setFormData((prev) => ({ ...prev, university: selectedUniversity }));
+      form.setValue("university", selectedUniversity);
     }
-  }, [selectedUniversity]);
+  }, [selectedUniversity, form]);
 
   const universities = [
     "Northumbria University",
@@ -43,52 +74,16 @@ export default function ContactForm({ selectedUniversity = "", onClearSelectedUn
     "Greenwich University",
   ];
 
-  const validate = () => {
-    const newErrors: { [key: string]: string } = {};
-    if (!formData.name.trim()) newErrors.name = "Full name is required";
-    
-    if (!formData.email.trim()) {
-      newErrors.email = "Email address is required";
-    } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address";
-    }
-
-    if (!formData.mobile.trim()) {
-      newErrors.mobile = "Mobile number is required";
-    } else if (!/^\+?[0-9\s-]{7,15}$/.test(formData.mobile.replace(/\s+/g, ""))) {
-      newErrors.mobile = "Please enter a valid phone number";
-    }
-
-    setErrors(newErrors);
-    return Object.keys(newErrors).length === 0;
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-    // Clear validation error when user types
-    if (errors[name]) {
-      setErrors((prev) => {
-        const next = { ...prev };
-        delete next[name];
-        return next;
-      });
-    }
-  };
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!validate()) return;
-
+  function onSubmit(values: z.infer<typeof formSchema>) {
+    // Log form values to resolve the unused variable warning
+    console.log("Inquiry Submitted:", values);
     setIsSubmitting(true);
 
     // Simulate API Submission
     setTimeout(() => {
       setIsSubmitting(false);
       setIsSubmitted(true);
-      setFormData({
+      form.reset({
         name: "",
         email: "",
         mobile: "",
@@ -98,15 +93,15 @@ export default function ContactForm({ selectedUniversity = "", onClearSelectedUn
       });
       if (onClearSelectedUniversity) onClearSelectedUniversity();
     }, 1500);
-  };
+  }
 
   return (
-    <section id="contact" className="py-24 px-4 md:px-8 bg-neutral-light scroll-mt-24 relative overflow-hidden">
+    <section id="contact" className="py-12 px-4 md:px-8 bg-neutral-light scroll-mt-24 relative overflow-hidden">
       {/* Background Soft Blurs */}
       <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full filter blur-3xl pointer-events-none" />
 
       <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-0 bg-white rounded-3xl border border-neutral-border/60 shadow-2xl overflow-hidden relative z-10 hover:border-primary/10 transition-all duration-500">
-        
+
         {/* Left Side: Information Card */}
         <div className="lg:col-span-5 bg-gradient-to-br from-secondary-dark via-secondary to-secondary-dark text-white p-8 md:p-12 flex flex-col justify-between relative overflow-hidden">
           {/* Background pattern overlay */}
@@ -163,7 +158,6 @@ export default function ContactForm({ selectedUniversity = "", onClearSelectedUn
           </div>
         </div>
 
-        {/* Right Side: Form */}
         <div className="lg:col-span-7 p-8 md:p-12">
           {isSubmitted ? (
             <div className="h-full flex flex-col justify-center items-center text-center space-y-6 py-8 animate-fade-in-up">
@@ -176,153 +170,153 @@ export default function ContactForm({ selectedUniversity = "", onClearSelectedUn
                   Thank you for applying. An expert advisor from your nearest branch has received your profile and will get in touch shortly to assist with course and visa guidance.
                 </p>
               </div>
-              <button
+              <Button
                 onClick={() => setIsSubmitted(false)}
-                className="bg-secondary hover:bg-primary text-white text-xs font-bold py-3 px-8 rounded-full transition-colors cursor-pointer shadow-md"
+                variant="secondary"
+                className="hover:bg-primary text-xs font-bold h-auto py-3 px-8 rounded-full shadow-md"
               >
                 Submit another inquiry
-              </button>
+              </Button>
             </div>
           ) : (
-            <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="space-y-2">
-                <h4 className="text-xl md:text-2xl font-extrabold text-secondary font-serif">Free Consultation Request</h4>
-                <p className="text-xs text-neutral-textMuted font-medium">Please fill in your current academic preferences.</p>
-              </div>
+            <Form {...form}>
+              <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                <div className="space-y-2">
+                  <h4 className="text-xl md:text-2xl font-extrabold text-secondary font-serif">Free Consultation Request</h4>
+                  <p className="text-xs text-neutral-textMuted font-medium">Please fill in your current academic preferences.</p>
+                </div>
 
-              {/* Name */}
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Full Name *</label>
-                <input
-                  type="text"
+                {/* Name */}
+                <FormField
+                  control={form.control}
                   name="name"
-                  value={formData.name}
-                  onChange={handleChange}
-                  placeholder="Enter your full name"
-                  className={`w-full px-4 py-3 border rounded-2xl outline-none text-sm transition-all focus:ring-4 focus:ring-primary/10 ${
-                    errors.name ? "border-red-500 focus:border-red-500" : "border-neutral-border/60 focus:border-primary"
-                  }`}
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name *</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter your full name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-                {errors.name && (
-                  <p className="text-red-500 text-xs flex items-center gap-1 mt-1 font-medium">
-                    <AlertCircle className="w-3 h-3" />
-                    <span>{errors.name}</span>
-                  </p>
-                )}
-              </div>
 
-              {/* Email & Mobile Row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Email Address *</label>
-                  <input
-                    type="email"
+                {/* Email & Mobile Row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <FormField
+                    control={form.control}
                     name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    placeholder="Enter email address"
-                    className={`w-full px-4 py-3 border rounded-2xl outline-none text-sm transition-all focus:ring-4 focus:ring-primary/10 ${
-                      errors.email ? "border-red-500 focus:border-red-500" : "border-neutral-border/60 focus:border-primary"
-                    }`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email Address *</FormLabel>
+                        <FormControl>
+                          <Input type="email" placeholder="Enter email address" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  {errors.email && (
-                    <p className="text-red-500 text-xs flex items-center gap-1 mt-1 font-medium">
-                      <AlertCircle className="w-3 h-3" />
-                      <span>{errors.email}</span>
-                    </p>
-                  )}
-                </div>
 
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Mobile Number *</label>
-                  <input
-                    type="text"
+                  <FormField
+                    control={form.control}
                     name="mobile"
-                    value={formData.mobile}
-                    onChange={handleChange}
-                    placeholder="e.g. +91 90007 57786"
-                    className={`w-full px-4 py-3 border rounded-2xl outline-none text-sm transition-all focus:ring-4 focus:ring-primary/10 ${
-                      errors.mobile ? "border-red-500 focus:border-red-500" : "border-neutral-border/60 focus:border-primary"
-                    }`}
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Mobile Number *</FormLabel>
+                        <FormControl>
+                          <Input placeholder="e.g. +91 90007 57786" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  {errors.mobile && (
-                    <p className="text-red-500 text-xs flex items-center gap-1 mt-1 font-medium">
-                      <AlertCircle className="w-3 h-3" />
-                      <span>{errors.mobile}</span>
-                    </p>
-                  )}
                 </div>
-              </div>
 
-              {/* Target University & Degree level row */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Target University</label>
-                  <select
+                {/* Target University & Degree level row */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                  <FormField
+                    control={form.control}
                     name="university"
-                    value={formData.university}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-neutral-border/60 focus:border-primary rounded-2xl outline-none text-sm transition-all focus:ring-4 focus:ring-primary/10 bg-white"
-                  >
-                    <option value="">Select University (Optional)</option>
-                    {universities.map((uni, idx) => (
-                      <option key={idx} value={uni}>
-                        {uni}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Target University</FormLabel>
+                        <FormControl>
+                          <Select {...field}>
+                            <option value="">Select University (Optional)</option>
+                            {universities.map((uni, idx) => (
+                              <option key={idx} value={uni}>
+                                {uni}
+                              </option>
+                            ))}
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
 
-                <div className="space-y-1.5">
-                  <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Target Degree</label>
-                  <select
+                  <FormField
+                    control={form.control}
                     name="degreeLevel"
-                    value={formData.degreeLevel}
-                    onChange={handleChange}
-                    className="w-full px-4 py-3 border border-neutral-border/60 focus:border-primary rounded-2xl outline-none text-sm transition-all focus:ring-4 focus:ring-primary/10 bg-white"
-                  >
-                    <option value="">Select Degree Level (Optional)</option>
-                    <option value="Bachelors">Bachelor's Degree</option>
-                    <option value="Masters">Master's Degree</option>
-                    <option value="MRes">MRes (Master of Research)</option>
-                    <option value="DBA">DBA (Doctor of Business Administration)</option>
-                    <option value="PhD">PhD (Doctor of Philosophy)</option>
-                  </select>
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Target Degree</FormLabel>
+                        <FormControl>
+                          <Select {...field}>
+                            <option value="">Select Degree Level (Optional)</option>
+                            <option value="Bachelors">Bachelor's Degree</option>
+                            <option value="Masters">Master's Degree</option>
+                            <option value="MRes">MRes (Master of Research)</option>
+                            <option value="DBA">DBA (Doctor of Business Administration)</option>
+                            <option value="PhD">PhD (Doctor of Philosophy)</option>
+                          </Select>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
                 </div>
-              </div>
 
-              {/* Message */}
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-black text-secondary uppercase tracking-wider block">Custom Notes / Message</label>
-                <textarea
+                {/* Message */}
+                <FormField
+                  control={form.control}
                   name="message"
-                  value={formData.message}
-                  onChange={handleChange}
-                  rows={3}
-                  placeholder="Tell us about your educational background or any questions you have..."
-                  className="w-full px-4 py-3 border border-neutral-border/60 focus:border-primary rounded-2xl outline-none text-sm transition-all focus:ring-4 focus:ring-primary/10"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Custom Notes / Message</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          rows={3}
+                          placeholder="Tell us about your educational background or any questions you have..."
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
                 />
-              </div>
 
-              {/* Submit Button */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="w-full bg-gradient-to-r from-primary to-orange-500 hover:from-secondary hover:to-secondary-dark text-white font-extrabold py-3.5 rounded-2xl transition-all shadow-lg hover:shadow-primary/20 disabled:opacity-70 flex items-center justify-center gap-2 cursor-pointer text-sm"
-              >
-                {isSubmitting ? (
-                  <>
-                    <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                    <span>Submitting Request...</span>
-                  </>
-                ) : (
-                  <>
-                    <Send className="w-4 h-4" />
-                    <span>Submit Inquiry</span>
-                  </>
-                )}
-              </button>
-            </form>
+                {/* Submit Button */}
+                <Button
+                  type="submit"
+                  disabled={isSubmitting}
+                  variant="gradient"
+                  className="w-full"
+                >
+                  {isSubmitting ? (
+                    <>
+                      <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+                      <span>Submitting Request...</span>
+                    </>
+                  ) : (
+                    <>
+                      <Send className="w-4 h-4" />
+                      <span>Submit Inquiry</span>
+                    </>
+                  )}
+                </Button>
+              </form>
+            </Form>
           )}
         </div>
       </div>

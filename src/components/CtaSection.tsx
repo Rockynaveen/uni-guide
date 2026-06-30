@@ -6,7 +6,7 @@ interface CtaSectionProps {
 
 export default function CtaSection({ onApplyNowClick }: CtaSectionProps) {
   return (
-    <section className="w-full bg-gradient-to-br from-secondary-dark via-secondary to-secondary-dark text-white py-20 md:py-24 relative overflow-hidden border-b-8 border-primary">
+    <section className="w-full bg-gradient-to-br from-secondary-dark via-secondary to-secondary-dark text-white py-12 md:py-24 relative overflow-hidden border-b-8 border-primary">
       {/* Decorative vectors */}
       <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full filter blur-3xl pointer-events-none" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary/15 rounded-full filter blur-3xl pointer-events-none" />

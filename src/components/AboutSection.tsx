@@ -122,7 +122,7 @@ export default function AboutSection() {
   return (
     <section
       id="about"
-      className="relative overflow-hidden bg-white px-4 py-24 md:px-8"
+      className="relative overflow-hidden bg-white px-4 py-12 md:px-8"
     >
       <div className="pointer-events-none absolute left-0 top-1/4 h-64 w-64 rounded-full bg-primary/5 blur-3xl" />
       <div className="pointer-events-none absolute bottom-1/4 right-0 h-80 w-80 rounded-full bg-secondary/5 blur-3xl" />
@@ -142,14 +142,6 @@ export default function AboutSection() {
                 </span>
               </h2>
             </div>
-
-            <p className="text-sm leading-relaxed text-neutral-textMuted md:text-base">
-              For years, Uni Guide has been helping students bridge the gap
-              between their aspirations and world-class academic institutions.
-              We represent multiple top-tier universities across the UK and
-              other major international destinations.
-            </p>
-
             <p className="text-sm leading-relaxed text-neutral-textMuted">
               Thinking of pursuing a second Master's, Bachelor's, MRes, DBA, or
               PhD? Our expert team is happy to assist you with all your
