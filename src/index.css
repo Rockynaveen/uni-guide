@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,400&family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #ff5c35;
+  --color-primary-hover: #e04f2c;
+  --color-secondary: #003a66;
+  --color-secondary-hover: #002a4d;
+  --color-secondary-dark: #001e38;
+  --color-accent: #e02454;
+  --color-neutral-light: #f0f5fb;
+  --color-neutral-border: #ced7e4;
+  --color-neutral-textMuted: #7a8a9e;
+  --color-neutral-textDark: #222222;
+  
+  --font-sans: "Inter", sans-serif;
+  --font-serif: "Plus Jakarta Sans", sans-serif;
+  
+  --animate-fade-in-up: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-marquee-reverse: marquee-reverse 60s linear infinite;
+  --animate-float: float 4s ease-in-out infinite;
+  
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes marquee-reverse {
+    from {
+      transform: translateX(-50%);
+    }
+    to {
+      transform: translateX(0);
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-8px);
+    }
+  }
+}
+
+@layer base {
+  body {
+    @apply font-sans bg-[#f0f5fb] text-neutral-textDark antialiased selection:bg-primary/20 selection:text-primary;
+    background-image: radial-gradient(circle at 100% 0%, rgba(255, 92, 53, 0.05) 0%, transparent 40%),
+                      radial-gradient(circle at 0% 100%, rgba(0, 58, 102, 0.03) 0%, transparent 40%);
+    background-attachment: fixed;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-serif text-secondary tracking-tight;
+  }
+}
+
+/* Custom Utilities */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.text-gradient-primary {
+  @apply bg-gradient-to-r from-primary via-orange-500 to-amber-500 bg-clip-text text-transparent;
+}
+
+.text-gradient-secondary {
+  @apply bg-gradient-to-r from-secondary to-secondary-dark bg-clip-text text-transparent;
+}
+
+.hover-glow {
+  @apply transition-all duration-300 hover:shadow-[0_20px_50px_rgba(255,92,53,0.15)] hover:border-primary/25;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f0f5fb;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #ff5c35;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #003a66;
+}

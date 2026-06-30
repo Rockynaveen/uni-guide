@@ -1,0 +1,14 @@
+- [x] Setup dependencies in package.json and config files (Tailwind CSS, PostCSS, Autoprefixer, Lucide React)
+- [x] Initialize tailwind.config.js with primary and secondary color tokens
+- [x] Copy the logo asset from artifacts to src/assets/logo.jpg
+- [x] Implement index.css with styling defaults and font imports
+- [x] Implement Header.tsx (Navbar, social links, contact info)
+- [x] Implement HeroSection.tsx (slideshow banner, Call to Action)
+- [x] Implement UniversitiesSection.tsx (grid of 13 universities)
+- [x] Implement AboutSection.tsx (Mission/Vision tabs, metrics counts)
+- [x] Implement ProcessSection.tsx (4-step university admission pipeline)
+- [x] Implement BranchesSection.tsx (UK Head Office, India, Australia branches details)
+- [x] Implement ContactForm.tsx (Name, Email, Mobile contact form)
+- [x] Implement Footer.tsx (links, newsletter, social links, copyright)
+- [x] Update App.tsx to load all sections
+- [x] Verify build compiles correctly and test the UI layout
