@@ -129,7 +129,7 @@ export default function ContactForm({ selectedUniversity = "", onClearSelectedUn
               <div>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Talk directly to an Agent</p>
                 <a href="tel:07979797734" className="text-sm md:text-base font-extrabold text-white hover:text-primary transition-colors">
-                  +44 7979 797734
+                  07979797734
                 </a>
               </div>
             </div>
@@ -140,8 +140,8 @@ export default function ContactForm({ selectedUniversity = "", onClearSelectedUn
               </div>
               <div>
                 <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">General Admissions Mail</p>
-                <a href="mailto:info@uniguide.co.uk" className="text-sm md:text-base font-extrabold text-white hover:text-primary transition-colors">
-                  info@uniguide.co.uk
+                <a href="mailto:info@uni-guide.co.uk" className="text-sm md:text-base font-extrabold text-white hover:text-primary transition-colors">
+                  info@uni-guide.co.uk
                 </a>
               </div>
             </div>

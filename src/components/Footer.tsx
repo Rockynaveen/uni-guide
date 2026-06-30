@@ -101,7 +101,7 @@ export default function Footer({ onNavigate }: FooterProps) {
             <div className="flex items-start gap-2.5">
               <MapPin className="w-4 h-4 text-primary shrink-0 mt-0.5" />
               <p className="leading-relaxed">
-                252 - 256 Romford Road, Exactly Building Behind Bus Stop, 3rd Floor Unit 3, E7 9HZ, London, UK
+                252 - 256 Romford Road Exactly Building Behind Bus Top 3rd Floor Unit 3 E7 9HZ
               </p>
             </div>
             <div className="flex items-center gap-2.5">
@@ -112,8 +112,8 @@ export default function Footer({ onNavigate }: FooterProps) {
             </div>
             <div className="flex items-center gap-2.5">
               <Mail className="w-4 h-4 text-primary shrink-0" />
-              <a href="mailto:info@uniguide.co.uk" className="hover:text-primary transition-colors">
-                info@uniguide.co.uk
+              <a href="mailto:info@uni-guide.co.uk" className="hover:text-primary transition-colors">
+                info@uni-guide.co.uk
               </a>
             </div>
           </div>

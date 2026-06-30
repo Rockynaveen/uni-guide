@@ -1,0 +1,6 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="60" cy="60" r="45" stroke="#f0f5fb" stroke-width="8"/>
+    <path d="M60 15 A 45 45 0 0 1 105 60" stroke="#ff5c35" stroke-width="8" stroke-linecap="round"/>
+    <path d="M60 105 A 45 45 0 0 1 15 60" stroke="#003a66" stroke-width="8" stroke-linecap="round"/>
+    <text x="50%" y="55%" text-anchor="middle" font-family="sans-serif" font-weight="bold" font-size="18" fill="#222" dy=".3em">Arden</text>
+  </svg>

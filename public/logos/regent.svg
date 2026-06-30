@@ -1,0 +1,8 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="25" y="25" width="70" height="70" rx="8" fill="#002d56"/>
+    <path d="M40 70 L45 50 L55 60 L60 45 L65 60 L75 50 L80 70 Z" fill="#d4af37"/>
+    <circle cx="45" cy="48" r="2" fill="#fff"/>
+    <circle cx="60" cy="43" r="2" fill="#fff"/>
+    <circle cx="75" cy="48" r="2" fill="#fff"/>
+    <text x="60" y="83" text-anchor="middle" font-family="Georgia, serif" font-size="10" fill="#fff" font-weight="bold">REGENT</text>
+  </svg>

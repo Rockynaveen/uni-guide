@@ -1,0 +1,5 @@
+<svg viewBox="0 0 120 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <text x="50%" y="55%" text-anchor="middle" font-family="Arial, sans-serif" font-weight="900" font-size="32" fill="#003a66" dy=".3em">UEL</text>
+    <path d="M20 75 C 40 65, 80 85, 100 75" stroke="#ff5c35" stroke-width="6" stroke-linecap="round" fill="none"/>
+    <path d="M20 85 C 40 75, 80 95, 100 85" stroke="#003a66" stroke-width="4" stroke-linecap="round" fill="none"/>
+  </svg>

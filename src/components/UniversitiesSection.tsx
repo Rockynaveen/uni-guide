@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { GraduationCap, Compass, Building2, Landmark, Award, Search } from "lucide-react";
+import { Building2, Search } from "lucide-react";
 import Autoplay from "embla-carousel-autoplay";
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "./ui/carousel";
 
@@ -11,19 +11,19 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
   const [searchQuery, setSearchQuery] = useState("");
 
   const universities = [
-    { name: "Northumbria University", location: "Newcastle / London, UK", icon: GraduationCap, active: false },
-    { name: "University of East London", location: "London, UK", icon: Landmark, active: true }, // Highlighted active matching screenshot style
-    { name: "Derby University", location: "Derby, UK", icon: Compass, active: false },
-    { name: "Regent College London", location: "London, UK", icon: GraduationCap, active: false },
-    { name: "York St John University", location: "London / York, UK", icon: Building2, active: false },
-    { name: "Arden University", location: "London / Birmingham / Online", icon: Compass, active: false },
-    { name: "University of Law", location: "Multiple UK Campuses", icon: GraduationCap, active: false },
-    { name: "BPP University", location: "London / Manchester, UK", icon: Landmark, active: false },
-    { name: "Teesside University", location: "Middlesbrough / London, UK", icon: Compass, active: false },
-    { name: "Wallbrook Institute London", location: "London, UK", icon: GraduationCap, active: false },
-    { name: "University College Birmingham", location: "Birmingham, UK", icon: Landmark, active: false },
-    { name: "Ulster University", location: "Northern Ireland / London, UK", icon: Compass, active: false },
-    { name: "Greenwich University", location: "London / Kent, UK", icon: Award, active: false },
+    { name: "Northumbria University", location: "Newcastle / London, UK", logo: "/logos/northumbria.png", active: false },
+    { name: "University of East London", location: "London, UK", logo: "/logos/uel.png", active: true },
+    { name: "Derby University", location: "Derby, UK", logo: "/logos/derby.png", active: false },
+    { name: "Regent College London", location: "London, UK", logo: "/logos/regent.png", active: false },
+    { name: "York St John University", location: "London / York, UK", logo: "/logos/yorksj.png", active: false },
+    { name: "Arden University", location: "London / Birmingham / Online", logo: "/logos/arden.png", active: false },
+    { name: "University of Law", location: "Multiple UK Campuses", logo: "/logos/ulaw.png", active: false },
+    { name: "BPP University", location: "London / Manchester, UK", logo: "/logos/bpp.png", active: false },
+    { name: "Teesside University", location: "Middlesbrough / London, UK", logo: "/logos/teesside.png", active: false },
+    { name: "Wallbrook Institute London", location: "London, UK", logo: "/logos/walbrook.png", active: false },
+    { name: "University College Birmingham", location: "Birmingham, UK", logo: "/logos/ucb.png", active: false },
+    { name: "Ulster University", location: "Northern Ireland / London, UK", logo: "/logos/ulster.png", active: false },
+    { name: "Greenwich University", location: "London / Kent, UK", logo: "/logos/greenwich.png", active: false },
   ];
 
   const filteredUniversities = universities.filter((uni) =>
@@ -67,15 +67,14 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
           filteredUniversities.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 bg-white/95 backdrop-blur-md p-6 rounded-2xl border border-neutral-border/50 shadow-2xl max-h-[360px] overflow-y-auto">
               {filteredUniversities.map((uni, idx) => {
-                const Icon = uni.icon;
                 return (
                   <div
                     key={idx}
                     onClick={() => onSelectUniversity(uni.name)}
                     className="group flex flex-col items-center justify-center p-5 rounded-xl border border-neutral-border/40 bg-white hover:bg-primary hover:border-primary hover:text-white hover:-translate-y-1.5 transition-all duration-300 cursor-pointer text-center min-h-[160px] text-secondary font-bold"
                   >
-                    <div className="p-2.5 bg-primary/10 rounded-xl mb-2.5 text-primary group-hover:bg-white/20 group-hover:text-white transition-colors duration-300">
-                      <Icon className="w-5 h-5 stroke-[1.8]" />
+                    <div className="w-16 h-16 p-2 bg-neutral-light rounded-xl mb-2.5 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
+                      <img src={uni.logo} alt={`${uni.name} logo`} className="w-full h-full object-contain" />
                     </div>
                     <span className="text-xs md:text-sm leading-tight tracking-tight font-sans block line-clamp-2 transition-colors duration-300">
                       {uni.name}
@@ -100,7 +99,7 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
             }}
             plugins={[
               Autoplay({
-                delay: 3000,
+                delay: 1500,
                 stopOnInteraction: false,
                 stopOnMouseEnter: true,
               }),
@@ -109,7 +108,6 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
           >
             <CarouselContent className="-ml-4">
               {universities.map((uni, idx) => {
-                const Icon = uni.icon;
                 return (
                   <CarouselItem
                     key={idx}
@@ -117,13 +115,13 @@ export default function UniversitiesSection({ onSelectUniversity }: Universities
                   >
                     <div
                       onClick={() => onSelectUniversity(uni.name)}
-                      className={`group flex flex-col items-center justify-center p-5 rounded-xl border transition-all duration-300 min-h-[175px] hover:bg-primary hover:border-primary hover:text-white hover:-translate-y-1.5 cursor-pointer text-center text-secondary font-bold ${uni.active
+                      className={`group flex flex-col items-center justify-center p-5 rounded-xl border transition-all duration-300 min-h-[185px] hover:bg-primary hover:border-primary hover:text-white hover:-translate-y-1.5 cursor-pointer text-center text-secondary font-bold ${uni.active
                           ? "bg-neutral-light border-primary/20"
                           : "bg-white border-neutral-border/40"
                         }`}
                     >
-                      <div className="p-2.5 bg-primary/10 rounded-xl mb-2.5 text-primary group-hover:bg-white/20 group-hover:text-white transition-colors duration-300">
-                        <Icon className="w-5 h-5 stroke-[1.8]" />
+                      <div className="w-16 h-16 p-2 bg-neutral-light rounded-xl mb-2.5 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
+                        <img src={uni.logo} alt={`${uni.name} logo`} className="w-full h-full object-contain" />
                       </div>
                       <span className="text-xs md:text-sm leading-tight tracking-tight font-sans block line-clamp-2 transition-colors duration-300">
                         {uni.name}
